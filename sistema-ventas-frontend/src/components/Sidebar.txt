@@ -1,0 +1,33 @@
+import React from 'react';
+import { Home, Users, Package, Receipt, DollarSign, BarChart2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const Sidebar = () => {
+  return (
+    <aside className="h-screen w-64 bg-gray-900 text-white flex flex-col p-4">
+      <h1 className="text-2xl font-bold mb-6">Sistema de Ventas</h1>
+      <nav className="flex flex-col space-y-4">
+        <Link to="/" className="flex items-center gap-3 hover:text-yellow-400">
+          <Home size={20} /> Inicio
+        </Link>
+        <Link to="/clientes" className="flex items-center gap-3 hover:text-yellow-400">
+          <Users size={20} /> Clientes
+        </Link>
+        <Link to="/productos" className="flex items-center gap-3 hover:text-yellow-400">
+          <Package size={20} /> Productos
+        </Link>
+        <Link to="/ventas" className="flex items-center gap-3 hover:text-yellow-400">
+          <Receipt size={20} /> Ventas
+        </Link>
+        <Link to="/pagos" className="flex items-center gap-3 hover:text-yellow-400">
+          <DollarSign size={20} /> Pagos
+        </Link>
+        <Link to="/reportes" className="flex items-center gap-3 hover:text-yellow-400">
+          <BarChart2 size={20} /> Reportes
+        </Link>
+      </nav>
+    </aside>
+  );
+};
+
+export default Sidebar;
