@@ -18,11 +18,22 @@ def search_clientes(db: Session, nombre: str) -> List[Cliente]:
     return db.query(Cliente).filter(Cliente.nombre.ilike(f"%{nombre}%")).all()
 
 def create_cliente(db: Session, cliente: ClienteCreate) -> Cliente:
+    # Verifica si ya existe un cliente con el mismo nombre y/o correo
+    if cliente.email:
+        existente = db.query(Cliente).filter(Cliente.email == cliente.email).first()
+        if existente:
+            raise ValueError("Ya existe un cliente registrado con este correo electrónico.")
+
+    existente_nombre = db.query(Cliente).filter(Cliente.nombre == cliente.nombre).first()
+    if existente_nombre:
+        raise ValueError("Ya existe un cliente registrado con este nombre.")
+
     db_cliente = Cliente(**cliente.dict())
     db.add(db_cliente)
     db.commit()
     db.refresh(db_cliente)
     return db_cliente
+
 
 def update_cliente(db: Session, cliente_id: int, cliente: ClienteUpdate) -> Optional[Cliente]:
     db_cliente = get_cliente(db, cliente_id)
@@ -42,7 +53,6 @@ def delete_cliente(db: Session, cliente_id: int) -> bool:
     db_cliente = get_cliente(db, cliente_id)
     if not db_cliente:
         return False
-    
     db.delete(db_cliente)
     db.commit()
     return True

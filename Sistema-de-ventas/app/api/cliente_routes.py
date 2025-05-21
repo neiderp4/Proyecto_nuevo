@@ -25,7 +25,11 @@ def read_clientes(
 
 @router.post("/", response_model=Cliente)
 def create_cliente(cliente: ClienteCreate, db: Session = Depends(get_db)):
-    return cliente_crud.create_cliente(db=db, cliente=cliente)
+    try:
+        return cliente_crud.create_cliente(db=db, cliente=cliente)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.get("/{cliente_id}", response_model=Cliente)
 def read_cliente(cliente_id: int, db: Session = Depends(get_db)):

@@ -10,7 +10,7 @@ class Cliente(Base):
     id_cliente = Column(Integer, primary_key=True, index=True)
     nombre = Column(String(150), nullable=False)
     telefono = Column(String(20), nullable=True)
-    email = Column(String(100), nullable=True)
+    email = Column(String(100), nullable=True, unique=True)
     direccion = Column(String(255), nullable=True)
     fecha_registro = Column(DateTime(timezone=True), server_default=func.now())
 

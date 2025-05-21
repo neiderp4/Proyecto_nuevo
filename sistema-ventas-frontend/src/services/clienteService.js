@@ -30,3 +30,4 @@ export const getResumenCliente = async (id) => {
   const response = await api.get(`/api/clientes/${id}/resumen`);
   return response.data;
 };
+
