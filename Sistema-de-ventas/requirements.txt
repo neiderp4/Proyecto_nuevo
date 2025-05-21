@@ -6,3 +6,5 @@ alembic
 python-multipart
 reportlab
 mysqlclient
+pydantic-settings
+
