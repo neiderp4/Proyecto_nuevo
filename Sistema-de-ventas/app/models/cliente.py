@@ -14,7 +14,8 @@ class Cliente(Base):
     direccion = Column(String(255), nullable=True)
     fecha_registro = Column(DateTime(timezone=True), server_default=func.now())
 
-    ventas = relationship("Venta", back_populates="cliente")
+    ventas = relationship("Venta", back_populates="cliente", cascade="all, delete-orphan")
+
 
 
 

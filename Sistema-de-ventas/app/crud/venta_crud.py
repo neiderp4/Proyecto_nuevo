@@ -1,6 +1,6 @@
 # app/crud/venta_crud.py
 from typing import List, Optional, Dict, Any, Tuple
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import func
 
 from app.models.venta import Venta, TipoVenta, EstadoVenta
@@ -8,6 +8,9 @@ from app.models.detalle_venta import DetalleVenta
 from app.models.pago import Pago
 from app.models.cliente import Cliente
 from app.schemas.venta import VentaCreate, VentaUpdate
+
+def get_ventas(db: Session, skip: int = 0, limit: int = 100) -> List[Venta]:
+    return db.query(Venta).options(joinedload(Venta.cliente)).offset(skip).limit(limit).all()
 
 def get_venta(db: Session, venta_id: int) -> Optional[Venta]:
     return db.query(Venta).filter(Venta.id_venta == venta_id).first()
@@ -137,3 +140,11 @@ def get_resumen_cliente(db: Session, cliente_id: int) -> Optional[Dict]:
         "total_pagado": total_pagado,
         "saldo_total": saldo_total
     }
+def delete_venta(db: Session, venta_id: int) -> bool:
+    venta = get_venta(db, venta_id)
+    if not venta:
+        return False
+
+    db.delete(venta)
+    db.commit()
+    return True

@@ -1,7 +1,7 @@
-# app/schemas/pago.py
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel
+from app.schemas.venta import Venta
 
 class PagoBase(BaseModel):
     id_venta: int
@@ -20,9 +20,9 @@ class PagoUpdate(BaseModel):
 class PagoInDB(PagoBase):
     id_pago: int
     fecha_pago: datetime
-    
+
     class Config:
         from_attributes = True
 
 class Pago(PagoInDB):
-    pass
+    venta: Optional[Venta] = None  # ✅ Relación con Venta (que puede tener Cliente)

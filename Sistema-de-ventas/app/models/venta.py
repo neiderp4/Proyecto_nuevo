@@ -4,6 +4,10 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.db.base_class import Base
 import enum
+detalles = relationship("DetalleVenta", back_populates="venta", cascade="all, delete-orphan")
+pagos = relationship("Pago", back_populates="venta", cascade="all, delete-orphan")
+id_cliente = Column(Integer, ForeignKey("clientes.id_cliente"), nullable=False)
+cliente = relationship("Cliente", back_populates="ventas")
 
 class TipoVenta(enum.Enum):
     contado = "contado"

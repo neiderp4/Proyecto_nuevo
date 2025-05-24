@@ -76,3 +76,9 @@ def get_resumen_venta(venta_id: int, db: Session = Depends(get_db)):
         "detalles": detalles,
         "pagos": pagos
     }
+@router.delete("/{venta_id}")
+def delete_venta(venta_id: int, db: Session = Depends(get_db)):
+    eliminado = venta_crud.delete_venta(db, venta_id)
+    if not eliminado:
+        raise HTTPException(status_code=404, detail="Venta no encontrada")
+    return {"message": "Venta eliminada correctamente"}
